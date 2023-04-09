@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaybeResult", "src\MaybeResult\MaybeResult.csproj", "{1A6C2089-7BBF-4248-AB06-A584D2BE8784}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaybeResult", "MaybeResult\MaybeResult.csproj", "{1A6C2089-7BBF-4248-AB06-A584D2BE8784}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaybeResult.Sample", "samples\MaybeResult.Sample\MaybeResult.Sample.csproj", "{99D20143-7113-498E-B014-603C8DD96FB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaybeResult.Sample", "MaybeResult.Sample\MaybeResult.Sample.csproj", "{99D20143-7113-498E-B014-603C8DD96FB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
