@@ -2,7 +2,12 @@
 
 namespace MaybeResult.Result
 {
-    public class Error : IEquatable<Error>
+    public interface IParametersBinding
+    {
+        Error Bind(params object[] parameters);
+    }
+
+    public class Error : IEquatable<Error>, IParametersBinding
     {
         public Error(string code, string message)
         {
@@ -12,6 +17,23 @@ namespace MaybeResult.Result
 
         public string Code { get; }
         public string Message { get; }
+
+        public Error Bind(params object[] parameters)
+        {
+            string parameterizedMessage = Message;
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                var split = parameterizedMessage.Split(new string[] { $"{{{i}}}" }, StringSplitOptions.None);
+
+                if (split.Length > 1)
+                {
+                    parameterizedMessage = split[0] + parameters[i].ToString() + split[1];
+                }
+            }
+
+            return new Error(Code, parameterizedMessage);
+        }
 
         public static bool operator ==(Error first, Error second)
         {
