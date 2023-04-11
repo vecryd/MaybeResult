@@ -5,6 +5,7 @@
         protected internal Result() { }
 
         public static implicit operator Result<T>(T value) => Success(value);
+        public static implicit operator Result<T>(Error error) => Failure(error);
 
         public static Result<T> Success(T value) => new Success<T>(value);
         public static Result<T> Failure(Error error) => new Failure<T>(error);
