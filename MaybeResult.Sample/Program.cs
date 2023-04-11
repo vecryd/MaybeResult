@@ -1,4 +1,4 @@
-﻿using MaybeResult.MaybeMonad;
+﻿using MaybeResult.Maybe;
 
 namespace MaybeResult.Sample
 {
@@ -30,9 +30,9 @@ namespace MaybeResult.Sample
         public Maybe<int> GetNumber(int id)
         {
             if (list.Count != 0 && (id >= 0 & id < list.Count))
-                return Maybe<int>.CreateSuccess(list[id]);
+                return Maybe<int>.Success(list[id]);
 
-            return Maybe<int>.CreateFailure();
+            return Maybe<int>.Failure();
         }
     }
 }
