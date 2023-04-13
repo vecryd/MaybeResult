@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MaybeResult.Result
+namespace MaybeResult.ResultMonad
 {
     public interface IParametersBinding
     {
