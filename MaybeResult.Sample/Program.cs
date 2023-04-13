@@ -1,4 +1,5 @@
-﻿using MaybeResult.Maybe;
+﻿using MaybeResult.ResultMonad;
+using MaybeResult.ResultMonad.Extensions;
 
 namespace MaybeResult.Sample
 {
@@ -6,33 +7,11 @@ namespace MaybeResult.Sample
     {
         static void Main()
         {
-            Number number = new Number();
-            var result = number.GetNumber(-6);
-            
-            switch (result)
-            {
-                case Success<int> success:
-                    Console.WriteLine("The value is " + success.Value.ToString());
-                    break;
-                case Failure<int> failure:
-                    Console.WriteLine("The provided ID is not correct");
-                    break;
-            }
+            var result = Result.Bind(TagName.Create("dotnet"), x => Tag.Create(x.Value))
+                .OnFailure(x => Console.WriteLine(x.Error.Message))
+                .OnSuccess(x => Console.WriteLine(x.Value));
 
             Console.ReadKey();
-        }
-    }
-
-    public class Number
-    {
-        List<int> list = new List<int> { 1, 2, 3 };
-
-        public Maybe<int> GetNumber(int id)
-        {
-            if (list.Count != 0 && (id >= 0 & id < list.Count))
-                return Maybe<int>.Success(list[id]);
-
-            return Maybe<int>.Failure();
         }
     }
 }
