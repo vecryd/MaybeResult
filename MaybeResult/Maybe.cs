@@ -1,4 +1,4 @@
-﻿namespace MaybeResult.Maybe
+﻿namespace MaybeResult.MaybeMonad
 {
     public abstract class Maybe<T>
     {
