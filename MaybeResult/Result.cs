@@ -11,6 +11,16 @@ namespace MaybeResult.ResultMonad
 
         public static Result<T> Success(T value) => new Success<T>(value);
         public static Result<T> Failure(Error error) => new Failure<T>(error);
+
+        public T Unpack()
+        {
+            if (this is Success<T> success)
+            {
+                return success.Value;
+            }
+
+            return default(T);
+        }
     }
 
     public sealed class Success<T> : Result<T>
