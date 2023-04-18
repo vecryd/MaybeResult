@@ -11,6 +11,13 @@ public abstract class Result<T>
     public static Result<T> Failure(Error error) => new Failure<T>(error);
 
     public T? GetValueOrDefault() => this is Success<T> success ? success.Value : default;
+
+    public Result<U> Bind<U>(Func<T, Result<U>> func) => this switch
+    {
+        Failure<T> failure => failure.Error,
+        Success<T> success => func.Invoke(success.Value),
+        _ => throw new InvalidOperationException()
+    };
 }
 
 public sealed class Success<T> : Result<T>
