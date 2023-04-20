@@ -1,17 +1,25 @@
 ﻿using MaybeResult.ResultMonad;
 using MaybeResult.ResultMonad.Extensions;
+using MaybeResult.Sample.Domain;
 
-namespace MaybeResult.Sample
+// The static method to bind multiple results
+var result = Result<Comment>.Bind(Person.Create("Mickey", "Mouse"), Markup.Create("You're the best, pal!"), Comment.Create)
+// Use extension methods to execute some actions on failure, success and both ...
+    .OnFailure(error => Console.WriteLine(error.Message))
+    .OnSuccess(value => Console.WriteLine($"The comment with {value.Id} was successfully created at {DateTime.UtcNow}"))
+    .OnBoth(() => Console.WriteLine("Some operation in the end"));
+
+// ... or use switch statement 
+string message = result switch
 {
-    class Program
-    {
-        static void Main()
-        {
-            var result = Result.Bind(TagName.Create("dotnet"), x => Tag.Create(x.Value))
-                .OnFailure(x => Console.WriteLine(x.Error.Message))
-                .OnSuccess(x => Console.WriteLine(x.Value));
+    Failure<Comment> failure => failure.Error.ToString(),
+    Success<Comment> success => success.Value.ToString(),
+    _ => throw new InvalidOperationException()
+};
 
-            Console.ReadKey();
-        }
-    }
-}
+Console.WriteLine(message);
+
+// Unpack a value from the result instance
+var comment = result.GetValueOrDefault();
+
+Console.ReadKey();
