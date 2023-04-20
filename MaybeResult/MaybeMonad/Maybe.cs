@@ -8,4 +8,6 @@ public abstract class Maybe<T>
 
     public static Maybe<T> Success(T value) => new Success<T>(value);
     public static Maybe<T> Failure() => new Failure<T>();
+
+    public T? GetValueOrDefault() => this is Success<T> success ? success.Value : default;
 }
