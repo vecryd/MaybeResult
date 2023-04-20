@@ -12,11 +12,11 @@ public static class ResultExtensions
         return result;
     }
 
-    public static Result<T> OnSuccess<T>(this Result<T> result, Action<Success<T>> action)
+    public static Result<T> OnSuccess<T>(this Result<T> result, Action<T> action)
     {
         if (result is Success<T> success)
         {
-            action.Invoke(success);
+            action.Invoke(success.Value);
         }
 
         return result;
@@ -32,11 +32,11 @@ public static class ResultExtensions
         return result;
     }
 
-    public static Result<T> OnFailure<T>(this Result<T> result, Action<Failure<T>> action)
+    public static Result<T> OnFailure<T>(this Result<T> result, Action<Error> action)
     {
         if (result is Failure<T> failure)
         {
-            action.Invoke(failure);
+            action.Invoke(failure.Error);
         }
 
         return result;
