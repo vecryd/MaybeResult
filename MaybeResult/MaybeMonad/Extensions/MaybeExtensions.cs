@@ -1,10 +1,10 @@
-﻿namespace MaybeResult.MaybeMonad.Extensions;
+﻿namespace MaybeResult;
 
 public static class MaybeExtensions
 {
     public static Maybe<T> OnSuccess<T>(this Maybe<T> maybe, Action action)
     {
-        if (maybe is Success<T>)
+        if (maybe is Some<T>)
         {
             action.Invoke();
         }
@@ -14,9 +14,9 @@ public static class MaybeExtensions
 
     public static Maybe<T> OnSuccess<T>(this Maybe<T> maybe, Action<T> action)
     {
-        if (maybe is Success<T> success)
+        if (maybe is Some<T> some)
         {
-            action.Invoke(success.Value);
+            action.Invoke(some.Value);
         }
 
         return maybe;
@@ -24,7 +24,7 @@ public static class MaybeExtensions
 
     public static Maybe<T> OnFailure<T>(this Maybe<T> maybe, Action action)
     {
-        if (maybe is Failure<T>)
+        if (maybe is None<T>)
         {
             action.Invoke();
         }
