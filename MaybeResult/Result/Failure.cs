@@ -1,4 +1,4 @@
-﻿namespace MaybeResult.ResultMonad;
+﻿namespace MaybeResult;
 
 public sealed class Failure<T> : Result<T>
 {

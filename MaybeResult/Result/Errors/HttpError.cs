@@ -1,4 +1,4 @@
-﻿namespace MaybeResult.ResultMonad;
+﻿namespace MaybeResult;
 
 public record HttpError(string Code, string Message, int StatusCode)
     : Error(Code, Message)

@@ -1,4 +1,4 @@
-﻿namespace MaybeResult.ResultMonad;
+﻿namespace MaybeResult;
 
 public record Error(string Code, string Message)
 {

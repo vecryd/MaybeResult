@@ -1,8 +1,8 @@
-﻿namespace MaybeResult.ResultMonad;
+﻿namespace MaybeResult;
 
 public abstract class Result<T>
 {
-    protected internal Result() { }
+    internal Result() { }
 
     public static implicit operator Result<T>(T value) => Success(value);
     public static implicit operator Result<T>(Error error) => Failure(error);
