@@ -29,6 +29,13 @@ public abstract class Result<T>
         _ => throw new InvalidOperationException()
     };
 
+    public Result<T> Fold(Func<T, Result<T>> folder) => this switch
+    {
+        Success<T> success => folder.Invoke(success.Value),
+        Failure<T> => this,
+        _ => throw new InvalidOperationException()
+    };
+
     public Result<U> Map<U>(Func<T, U> mapper) => this switch
     {
         Success<T> success => mapper.Invoke(success.Value),
