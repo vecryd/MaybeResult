@@ -10,7 +10,17 @@ public abstract class Result<T>
     public static Result<T> Success(T value) => new Success<T>(value);
     public static Result<T> Failure(Error error) => new Failure<T>(error);
 
-    public T? GetValueOrDefault() => this is Success<T> success ? success.Value : default;
+    public bool IsSuccess => this is Success<T> ? true : false;
+    public bool IsFailure => this is Failure<T> ? true : false;
+
+    public T? GetValueOrDefault(T defaultValue = default!) => this is Success<T> success ? success.Value : defaultValue;
+
+    public bool Contains(T value) => this switch
+    {
+        Success<T> success => success.Value.Equals(value),
+        Failure<T> => false,
+        _ => throw new InvalidOperationException()
+    };
 
     public Result<U> Bind<U>(Func<T, Result<U>> binder) => this switch
     {
