@@ -58,4 +58,11 @@ public abstract class Result<T>
     };
 
     public Result<T> OnBoth(Action action) => new Func<Result<T>>(() => { action.Invoke(); return this; }).Invoke();
+
+    public Maybe<T> ToMaybe() => this switch
+    {
+        Success<T> success => Maybe<T>.Some(success.Value),
+        Failure<T> => Maybe<T>.None(),
+        _ => throw new InvalidOperationException()
+    };
 }
