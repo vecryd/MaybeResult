@@ -1,9 +1,8 @@
-﻿using MaybeResult.ResultMonad;
-using MaybeResult.ResultMonad.Extensions;
+﻿using MaybeResult;
 using MaybeResult.Sample.Domain;
 
 // The static method to bind multiple results
-var result = Result<Comment>.Bind(Person.Create("Mickey", "Mouse"), Markup.Create("You're the best, pal!"), Comment.Create)
+var result = Result.Bind(Person.Create("Mickey", "Mouse"), Markup.Create("You're the best, pal!"), Comment.Create)
 // Use extension methods to execute some actions on failure, success and both ...
     .OnFailure(error => Console.WriteLine(error.Message))
     .OnSuccess(value => Console.WriteLine($"The comment with {value.Id} was successfully created at {DateTime.UtcNow}"))

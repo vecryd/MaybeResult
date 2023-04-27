@@ -1,6 +1,4 @@
-﻿using MaybeResult.ResultMonad;
-
-namespace MaybeResult.Sample.Domain;
+﻿namespace MaybeResult.Sample.Domain;
 
 public class Comment
 {
@@ -22,8 +20,8 @@ public class Comment
     public static Result<Comment> Create(Person person, Markup content)
     {
         var currentDateTime = DateTime.UtcNow;
-        // The instance method to bind one result
-        return CommentId.Create().Bind<Comment>(commentId => new Comment(commentId, person, content, currentDateTime, currentDateTime));
+        // The instance method to map one result
+        return Result.Map(CommentId.Create(), id => new Comment(id, person, content, currentDateTime, currentDateTime));
     }
 
     public override string ToString()

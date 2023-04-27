@@ -1,6 +1,4 @@
-﻿using MaybeResult.ResultMonad;
-
-namespace MaybeResult.Sample.Domain;
+﻿namespace MaybeResult.Sample.Domain;
 
 public record Person
 {
