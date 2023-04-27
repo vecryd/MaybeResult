@@ -42,4 +42,20 @@ public abstract class Result<T>
         Failure<T> failure => failure.Error,
         _ => throw new InvalidOperationException()
     };
+
+    public Result<T> OnSuccess(Action<T> action) => this switch
+    {
+        Success<T> success => new Func<Result<T>>(() => { action.Invoke(success.Value); return this; }).Invoke(),
+        Failure<T> => this,
+        _ => throw new InvalidOperationException()
+    };
+
+    public Result<T> OnFailure(Action<Error> action) => this switch
+    {
+        Success<T> => this,
+        Failure<T> failure => new Func<Result<T>>(() => { action.Invoke(failure.Error); return this; }).Invoke(),
+        _ => throw new InvalidOperationException()
+    };
+
+    public Result<T> OnBoth(Action action) => new Func<Result<T>>(() => { action.Invoke(); return this; }).Invoke();
 }
