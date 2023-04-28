@@ -1,11 +1,14 @@
 ﻿namespace MaybeResult;
 
-public abstract class Result<T>
+public abstract class Result<T> : IEquatable<Result<T>>
 {
     internal Result() { }
 
     public static implicit operator Result<T>(T value) => Success(value);
     public static implicit operator Result<T>(Error error) => Failure(error);
+
+    public static bool operator ==(Result<T>? left, Result<T>? right) => left is not null && right is not null && left.Equals(right);
+    public static bool operator !=(Result<T>? left, Result<T>? right) => !(left == right);
 
     public static Result<T> Success(T value) => new Success<T>(value);
     public static Result<T> Failure(Error error) => new Failure<T>(error);
@@ -59,10 +62,67 @@ public abstract class Result<T>
 
     public Result<T> OnBoth(Action action) => new Func<Result<T>>(() => { action.Invoke(); return this; }).Invoke();
 
+    public bool Equals(Result<T>? other)
+    {
+        if (other is null)
+        {
+            return false;
+        }
+
+        if (other.GetType() != this.GetType())
+        {
+            return false;
+        }
+
+        if (other.IsFailure)
+        {
+            return ((Failure<T>)other).Error.Equals(((Failure<T>)this).Error);
+        }
+
+        T otherValue = ((Success<T>)other).Value;
+        T value = ((Success<T>)this).Value;
+
+        return otherValue.Equals(value);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null)
+        {
+            return false;
+        }
+
+        if (obj.GetType() != this.GetType())
+        {
+            return false;
+        }
+
+        if (obj is not Result<T> result)
+        {
+            return false;
+        }
+
+        return result.Equals(this);
+    }
+
+    public override int GetHashCode() => this switch
+    {
+        Success<T> success => success.Value.GetHashCode(),
+        Failure<T> failure => failure.Error.GetHashCode(),
+        _ => throw new InvalidOperationException()
+    };
+
     public Maybe<T> ToMaybe() => this switch
     {
         Success<T> success => Maybe<T>.Some(success.Value),
         Failure<T> => Maybe<T>.None(),
+        _ => throw new InvalidOperationException()
+    };
+
+    public override string ToString() => this switch
+    {
+        Success<T> success => success.Value.ToString(),
+        Failure<T> failure => failure.Error.ToString(),
         _ => throw new InvalidOperationException()
     };
 }
