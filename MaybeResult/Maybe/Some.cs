@@ -4,6 +4,11 @@ public sealed class Some<T> : Maybe<T>
 {
     internal Some(T value) : base()
     {
+        if (value is null)
+        {
+            throw new ArgumentNullException(nameof(value), $"An instance of type Some<{typeof(T).Name}> must be initialized with a non-nullable value");
+        }
+
         Value = value;
     }
 

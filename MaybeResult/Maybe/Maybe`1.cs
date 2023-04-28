@@ -1,10 +1,13 @@
 ﻿namespace MaybeResult;
 
-public abstract class Maybe<T>
+public abstract class Maybe<T> : IEquatable<Maybe<T>>
 {
     internal Maybe() { }
 
     public static implicit operator Maybe<T>(T value) => Some(value);
+
+    public static bool operator ==(Maybe<T>? left, Maybe<T>? right) => left is not null && right is not null && left.Equals(right);
+    public static bool operator !=(Maybe<T>? left, Maybe<T>? right) => !(left == right);
 
     public static Maybe<T> Some(T value) => new Some<T>(value);
     public static Maybe<T> None() => new None<T>();
@@ -46,6 +49,63 @@ public abstract class Maybe<T>
     {
         Some<T> some => mapper.Invoke(some.Value),
         None<T> => Maybe<U>.None(),
+        _ => throw new InvalidOperationException()
+    };
+
+    public bool Equals(Maybe<T>? other)
+    {
+        if (other is null)
+        {
+            return false;
+        }
+
+        if (other.GetType() != this.GetType())
+        {
+            return false;
+        }
+
+        if (other.IsNone)
+        {
+            return true;
+        }
+
+        T otherValue = ((Some<T>)other).Value;
+        T value = ((Some<T>)this).Value;
+
+        return otherValue.Equals(value);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null)
+        {
+            return false;
+        }
+
+        if (obj.GetType() != this.GetType())
+        {
+            return false;
+        }
+
+        if (obj is not Maybe<T> maybe)
+        {
+            return false;
+        }
+
+        return maybe.Equals(this);
+    }
+
+    public override int GetHashCode() => this switch
+    {
+        Some<T> some => some.Value.GetHashCode(),
+        None<T> => "None".GetHashCode() * 79,
+        _ => throw new InvalidOperationException()
+    };
+
+    public override string ToString() => this switch
+    {
+        Some<T> some => some.Value.ToString(),
+        None<T> => string.Empty,
         _ => throw new InvalidOperationException()
     };
 }
