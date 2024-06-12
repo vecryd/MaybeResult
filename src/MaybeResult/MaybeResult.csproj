@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Version>1.2.0</Version>
+		<PackageId>MaybeResult</PackageId>
+		<PackageVersion>1.2.0</PackageVersion>
+		<Authors>Vladislav Bondarenko</Authors>
+		<Description>C# implementation of the Maybe and Result monads for better error handling</Description>
+		<Copyright>Copyright (c) 2023-2024 Vladislav Bondarenko</Copyright>
+		<PackageProjectUrl>https://github.com/vecryd/MaybeResult</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/vecryd/MaybeResult.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>monad;maybe;result;functional;fluent</PackageTags>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
+	</ItemGroup>
+</Project>

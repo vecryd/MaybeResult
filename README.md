@@ -1,10 +1,7 @@
 # MaybeResult
 C# implementation of the Maybe and Result monads for better error handling.
 ## How to build
-The project is a class library and targets .NET 7. It can be build with Visual Studio 2022 or MSBuild command line tool like so:
-```PowerShell
-msbuild MaybeResult\MaybeResult.csproj /p:OutputPath=\test /p:Configuration=Release /p:Optimize=true /p:DebugSymbols=false /p:DebugType=None
-```
+The project is a class library that targets .NET Standard 2.0. It can be build running the scripts "build.ps1" on Windows or "build.sh" on Linux. The "artifacts" folder contains already compiled binaries.
 ## How to use
 ### Maybe
 The Maybe type has two inheritors: 1) ```Some<T>``` presents some valid value, 2) ```None<T>``` means that there is no any value. The types have internal constructors to ensure that there will not be any other inherited types and thus emulate Discriminated Unions from F#.
@@ -79,7 +76,7 @@ Result<Character> character = Result.Map(name, age, (x, y) => new Character(x, y
     .OnFailure(error => Console.WriteLine(error.ToString()))
     .OnBoth(() => Console.WriteLine("Some message whether it succeded or failed"));
 ```
-The Error type is a record that consists of two string properties: ```Code``` and ```Message```. The Message property can be formatted with parameters if the Error instance was created in the location that differs from the returning location.
+The Error type is a class with immutable properties: ```Code``` and ```Message```. The Message property can be formatted with parameters if the Error instance was created in the location that differs from the returning location.
 ```csharp
 public static class DomainErrors
 {
@@ -98,4 +95,6 @@ public static Result<Character> Create(string name, int age)
 ```
 Besides there is the HttpError that adds the integer property StatusCode. These two error types can be inherited to construct other error types.
 
-For more examples see the sample project [MaybeResult.Sample](https://github.com/gloriosus/MaybeResult/tree/main/MaybeResult.Sample).
+For more examples see the sample project MaybeResult.Sample:
+- https://github.com/gloriosus/MaybeResult/tree/main/MaybeResult.Sample
+- https://gitverse.ru/vecryd/MaybeResult/content/main/MaybeResult.Sample
